@@ -32,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.commands.executeCommand('editor.action.clipboardPasteAction');
         }
         // Display a message box to the user
-        vscode.window.showInformationMessage('Excel to Html Table Active!');
+        // vscode.window.showInformationMessage('Excel to Html Table Active!');
     });
 
     context.subscriptions.push(disposable);
