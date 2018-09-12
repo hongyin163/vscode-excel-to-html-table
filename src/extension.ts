@@ -105,9 +105,8 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {
 }
 
-function buildRows(rawData){
+function buildRows(rawData:String){
     let data = rawData.trim()
-
     // Split rows on newline
     var rows: Array<Array<string>> = data.split((/\r\n?/g)).map(function (row) {
         // Split columns on tab
