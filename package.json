@@ -1,10 +1,10 @@
 {
     "name": "excel-to-html-table",
-    "displayName": "Excel To Html Table",
+    "displayName": "Excel To Html Table / Json",
     "description": "Copy Excel data and convert to Html table format",
     "version": "1.0.0",
     "publisher": "hongyin163",
-    "repository":"https://github.com/hongyin163/vscode-excel-to-html-table.git",
+    "repository": "https://github.com/hongyin163/vscode-excel-to-html-table.git",
     "engines": {
         "vscode": "^1.27.0"
     },
@@ -25,26 +25,36 @@
                     "when": "editorTextFocus",
                     "command": "extension.excelToHtml",
                     "group": "navigation"
-                }
-            ],
-            "editor/title": [
+                },
                 {
                     "when": "editorTextFocus",
-                    "command": "extension.excelToHtml",
+                    "command": "extension.excelToJson",
                     "group": "navigation"
                 }
             ]
         },
-        "keybindings": {
-            "key": "shift+alt+h",
-            "command": "extension.excelToHtml",
-            "title": "Excel to Html table",
-            "when": "editorTextFocus"
-        },
+        "keybindings": [
+            {
+                "key": "shift+alt+h",
+                "command": "extension.excelToHtml",
+                "title": "Excel to Html table",
+                "when": "editorTextFocus"
+            },
+            {
+                "key": "shift+alt+j",
+                "command": "extension.excelToJson",
+                "title": "Excel to Json",
+                "when": "editorTextFocus"
+            }
+        ],
         "commands": [
             {
                 "command": "extension.excelToHtml",
                 "title": "Excel to Html table"
+            },
+            {
+                "command": "extension.excelToJson",
+                "title": "Excel to Json"
             }
         ]
     },
@@ -61,5 +71,8 @@
         "tslint": "^5.8.0",
         "@types/node": "^8.10.25",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "copy-paste": "^1.3.0"
     }
 }

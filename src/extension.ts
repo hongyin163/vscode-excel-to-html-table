@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.excelToHtml', () => {
+    let disposableToHtml = vscode.commands.registerCommand('extension.excelToHtml', () => {
         let clipboard = require("copy-paste");
 
         let rawData = clipboard.paste();
@@ -25,7 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
             // Copy formatted data to clipboard before calling normal paste action
             // Afterwards, replace clipboard data with original content
             clipboard.copy(paste.data, function () {
-                vscode.commands.executeCommand('editor.action.clipboardPasteAction')
+                vscode.commands.executeCommand('editor.action.clipboardPasteAction');
+                vscode.commands.executeCommand('editor.action.formatDocument');
                 clipboard.copy(rawData)
             })
         } else {
@@ -35,7 +36,31 @@ export function activate(context: vscode.ExtensionContext) {
         // vscode.window.showInformationMessage('Excel to Html Table Active!');
     });
 
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(disposableToHtml);
+
+    let disposableToJson = vscode.commands.registerCommand('extension.excelToJson', () => {
+        let clipboard = require("copy-paste");
+
+        let rawData = clipboard.paste();
+
+        let paste = excelToJson(rawData);
+
+        if (paste.isTable) {
+            // Copy formatted data to clipboard before calling normal paste action
+            // Afterwards, replace clipboard data with original content
+            clipboard.copy(paste.data, function () {
+                vscode.commands.executeCommand('editor.action.clipboardPasteAction');
+                vscode.commands.executeCommand('editor.action.formatDocument');
+                clipboard.copy(rawData)
+            })
+        } else {
+            vscode.commands.executeCommand('editor.action.clipboardPasteAction');
+        }
+        // Display a message box to the user
+        // vscode.window.showInformationMessage('Excel to Html Table Active!');
+    });
+
+    context.subscriptions.push(disposableToJson);
 }
 
 // this method is called when your extension is deactivated
@@ -55,7 +80,10 @@ function looksLikeTable(data: Array<Array<string>>) {
     return isTable
 }
 
-
+/**
+ * Excel to Html
+ * @param rawData 
+ */
 function excelToHtml(rawData: String) {
     let data = rawData.trim()
 
@@ -95,6 +123,47 @@ function excelToHtml(rawData: String) {
             ${tdStr}
         </tbody>
     </table>`
+    return {
+        isTable: true,
+        data: table
+    }
+}
+
+/**
+ * Excel to Json
+ * @param rawData 
+ */
+function excelToJson(rawData: String) {
+    let data = rawData.trim()
+
+    // Split rows on newline
+    var rows: Array<Array<string>> = data.split((/[\n\u0085\u2028\u2029]|\r\n?/g)).map(function (row) {
+        // Split columns on tab
+        return row.split("\t")
+    })
+
+    if (!looksLikeTable(rows))
+        return { isTable: false }
+
+    let ths = rows[0];
+    let initTrs: Array<Array<string>> = [];
+    let trs: Array<Array<string>> = rows.slice(1).reduce((pre, tds: Array<string>) => {
+        if (tds.length < ths.length) {
+            return pre;
+        }
+        pre.push(tds);
+        return pre;
+    }, initTrs);
+
+    let tdList = trs.map((tds: Array<string>) => {
+        return tds.reduce((pre, td, i) => {
+            return Object.assign(pre, {
+                [ths[i]]: td
+            })
+        }, {})
+    });
+
+    let table = JSON.stringify(tdList);
     return {
         isTable: true,
         data: table
