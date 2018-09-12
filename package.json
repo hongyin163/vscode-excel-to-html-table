@@ -2,11 +2,11 @@
     "name": "excel-to-html-table",
     "displayName": "Excel To Html Table / Json",
     "description": "Copy Excel data and convert to Html table format",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "publisher": "hongyin163",
     "repository": "https://github.com/hongyin163/vscode-excel-to-html-table.git",
     "engines": {
-        "vscode": "^1.27.0"
+        "vscode": "^1.19.0"
     },
     "categories": [
         "Other"
