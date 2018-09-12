@@ -334,11 +334,12 @@ function excelToReactCode(rawData: String) {
     let template = `
     import React, { Component } from 'react';
     import { setEditProps } from 'services/page-model';
+    const propsMap= ${JSON.stringify(propsMap)};
     @setEditProps(
         {
             list:${JSON.stringify(tdList)}
         },
-        ${JSON.stringify(propsMap)}
+        propsMap
     )
     class Table extends Component {
         state = {}
@@ -347,7 +348,6 @@ function excelToReactCode(rawData: String) {
             let {
                 list
             } = me.props;
-            let propsMap = Table.propsMap;
             return (
                 <table >
                     <thead>
