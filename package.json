@@ -2,7 +2,7 @@
     "name": "excel-to-html-table",
     "displayName": "Excel To Html Table / Json",
     "description": "Copy Excel data and convert to Html table / Json / React  format",
-    "version": "1.0.7",
+    "version": "1.0.10",
     "publisher": "hongyin163",
     "repository": "https://github.com/hongyin163/vscode-excel-to-html-table.git",
     "engines": {
@@ -39,6 +39,11 @@
                 {
                     "when": "editorTextFocus",
                     "command": "extension.csvToJson",
+                    "group": "navigation"
+                },
+                {
+                    "when": "editorTextFocus",
+                    "command": "extension.imageToHtml",
                     "group": "navigation"
                 }
             ]
@@ -85,6 +90,10 @@
             {
                 "command": "extension.csvToJson",
                 "title": "Csv to Json"
+            },
+            {
+                "command": "extension.imageToHtml",
+                "title": "Image to Html"
             }
         ]
     },
