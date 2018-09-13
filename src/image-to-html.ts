@@ -50,7 +50,7 @@ function imageToHtml() {
     if (selectText) {
         fileName = selectText;
     } else {
-        fileName = (Math.random() * 1000000).toFixed(0);
+        fileName = `img_${(Math.random() * 1000000).toFixed(0)}`;
     }
     let buildCode = buildHtml;
     let buildHander = buildType.find((item) => (item.test.test(extname)));
